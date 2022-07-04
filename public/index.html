@@ -1,0 +1,121 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/css/style.css">
+	<title>webrtc video chat</title>
+</head>
+<body>
+	<section class='main_container'>
+		<div class='dashboard_container'>
+			<div class='logo_container'>
+				<img src='./images/logo.png'></img>
+			</div>
+			<div>
+				<div class='description_container'>
+					<p class='description_container_paragraph'>
+						Talk with other user by passing his personal code or talk with strangers!
+					</p>
+				</div>
+				<div class='personal_code_container'>
+					<div class='personal_code_title_container'>
+						<p class='personal_code_title_paragraph'>
+							Your personal code
+						</p>
+					</div>
+					<div class="personal_code_value_container">
+						<p class='personal_code_value_paragraph' id='personal_code_paragraph'>XXXXXX</p>
+						<button class='personal_code_copy_button' id='personal_code_copy_button'>
+							<img src='./images/copyButton.png'></img>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class='personal_code_connecting_container'>
+				<p class='personal_code_connecting_paragraph'>Personal Code</p>
+				<div class='personal_code_connecting_input_container'>
+					<input class='personal_code_input' id='personal_code_input'></input>
+				</div>
+				<div class='personal_code_connecting_buttons_container'>
+					<button class='connecting_button' id='personal_code_chat_button'>
+						<img src='./images/chatButton.png' class='connecting_buttons_image'></img>
+					</button>
+					<button class='connecting_button' id='personal_code_video_button'>
+						<img src='./images/videoButton.png' class='connecting_buttons_image'></img>
+					</button>
+				</div>
+			</div>
+			<div class='stranger_connecting_container'>
+				<p class='stranger_title_container'>Stranger</p>
+				<div class='stranger_buttons_container'>
+					<button class='connecting_button' id='stranger_chat_button'>
+						<img src='./images/chatButton.png' class='connecting_buttons_image'></img>
+					</button>
+					<button class='connecting_button' id='stranger_video_button'>
+						<img src='./images/videoButton.png' class='connecting_buttons_image'></img>
+					</button>
+				</div>
+			</div>
+			<div class='checkbox_container'>
+				<div class='checkbox_connection' id='allow_strangers_checkbox'>
+					<img id='allow_strangers_checkbox_image' class='' src='.//images/check.png'></img>
+				</div>
+				<p class='checkbox_container_paragraph'>Allow connection from strangers</p>
+			</div>
+			<div class='dashboard_blur display_none' id='dashboard_blur'></div>
+		</div>
+		<div class='call_container'>
+			<div class='videos_container'>
+				<div id='video_placeholder' class='videos_placeholder'>
+					<img src='./images/logo.png'></img>
+				</div>
+				<video class='remote_video display_none' autoplay id='remote_video'></video>
+				<div class='local_video_container'>
+					<video class='local_video' id='local_video' muted autoplay></video>
+				</div>
+				<div class='call_buttons_container display_none' id='call_buttons'>
+					<button class='call_button_small' id='mic_button'>
+						<img src='./images/mic.png' id='mic_button_image'></img>
+					</button>
+					<button class='call_button_small' id='camera_button'>
+						<img src='./images/camera.png' id='camera_button_image'></img>
+					</button>
+					<button class='call_button_large' id='hang_up_button'>
+						<img src='./images/hangUp.png'></img>
+					</button>
+					<button class='call_button_small' id='screen_sharing_button'>
+						<img src='./images/switchCameraScreenSharing.png'></img>
+					</button>
+					<button class='call_button_small' id='start_recording_button'>
+						<img src='./images/recordingStart.png'></img>
+					</button>
+				</div>
+				<div class='finish_chat_button_container display_none' id='finish_chat_button_container'>
+					<button class='call_button_large' id='finish_chat_call_button'>
+						<img src='./images/hangUp.png'></img>
+					</button>
+				</div>
+				<div class='video_recording_buttons_container display_none' id='video_recording_buttons'>
+					<button id='pause_recording_button'>
+						<img src='./images/pause.png'></img>
+					</button>
+					<button id='resume_recording_button' class='display_none'>
+						<img src='./images/resume.png'></img>
+					</button>
+					<button id='stop_recording_button'>
+						Stop recording
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class='messenger_container'></div>
+	</section>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/js/ui.js" type="module"></script>
+	<script src="/js/wss.js" type="module"></script>
+	<script src="/js/store.js" type="module"></script>
+	<script src="/js/main.js" type="module"></script>
+</body>
+</html>
