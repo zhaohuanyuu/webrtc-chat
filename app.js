@@ -20,12 +20,23 @@ io.on('connection', socket => {
 	// console.log(socket.id);
 
 	connectPeers.push(socket.id);
-
 	console.log(connectPeers);
 
-	socket.on('disconnect', () => {
-		console.log('user disconnected');
+	socket.on('pre-offer', data => {
+		const { callType, calleePersonalCode } = data;
+		const connectedPeer = connectPeers.find(peerSocketId => peerSocketId === calleePersonalCode);
 
+		if (connectedPeer) {
+			const data = {
+				callerSocketId: socket.id,
+				callType,
+			}
+
+			io.to(calleePersonalCode).emit('pre-offer', data);
+		}
+	})
+
+	socket.on('disconnect', () => {
 		const newConnectedPeers = connectPeers.filter((peerSocketId) => peerSocketId !== socket.id);
 		connectPeers = newConnectedPeers;
 	})

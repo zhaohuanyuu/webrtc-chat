@@ -12,7 +12,7 @@ export const setSocketId = socketId => {
 		...state,
 		socketId
 	}
-	console.log('setSocketId > ', state);
+	// console.log('setSocketId > ', state);
 }
 
 export const setLocalStream= stream => {
