@@ -1,6 +1,6 @@
 import * as ui from './ui.js';
 import * as wss from './wss.js';
-import * as constants from "constants.js";
+import * as constants from "./constants.js";
 
 let connectedUserDetails = null;
 
