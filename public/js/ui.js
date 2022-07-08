@@ -16,3 +16,11 @@ export const showIncomingCallDialog = (callType, acceptCallHandler, rejectCallHa
 	dialog.querySelectorAll('*').forEach(dialog => dialog.remove());
 	dialog.appendChild(incomingDialog);
 }
+
+export const showCallingDialog = rejectCallHandler => {
+	const callingDialog = elements.getCallingDialog(rejectCallHandler);
+
+	const dialog = document.getElementById('dialog');
+	dialog.querySelectorAll('*').forEach(dialog => dialog.remove());
+	dialog.appendChild(callingDialog);
+}

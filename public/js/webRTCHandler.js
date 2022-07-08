@@ -5,11 +5,22 @@ import * as constants from "./constants.js";
 let connectedUserDetails = null;
 
 export const sendPreOffer = (callType, calleePersonalCode) => {
-	const data = {
-	  callType,
-		calleePersonalCode
+	connectedUserDetails = {
+		callType,
+		socketId: calleePersonalCode
 	}
-	wss.sendPreOffer(data);
+
+	if (
+		callType === constants.callType.CHAT_PERSONAL_CODE
+		|| callType === constants.callType.VIDEO_PERSONAL_CODE
+	) {
+		const data = {
+			callType,
+			calleePersonalCode
+		}
+		ui.showCallingDialog(callingDialogRejectCallHander);
+		wss.sendPreOffer(data);
+	}
 }
 
 export const handlePreOffer = data => {
@@ -21,17 +32,21 @@ export const handlePreOffer = data => {
 		callType,
 	};
 
-	const acceptCallHandler = () => {
-		console.log('acceptCallHandler')
-	}
-	const rejectCallHandler = () => {
-		console.log('rejectCallHandler')
-	}
-
 	if (
 		callType === constants.callType.CHAT_PERSONAL_CODE
 		|| callType === constants.callType.VIDEO_PERSONAL_CODE
 	) {
 		ui.showIncomingCallDialog(callType, acceptCallHandler, rejectCallHandler);
 	}
+}
+
+const acceptCallHandler = () => {
+	console.log('acceptCallHandler')
+}
+const rejectCallHandler = () => {
+	console.log('rejectCallHandler')
+}
+
+const callingDialogRejectCallHander = () => {
+	console.log('rejecting the call');
 }
