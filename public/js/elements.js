@@ -42,6 +42,9 @@ export const getIncomingDialog = (callTypeInfo, acceptCallHandler, rejectCallHan
 	dialogContent.appendChild(imageContainer);
 	dialogContent.appendChild(buttonContainer);
 
+	acceptCallButton.addEventListener('click', acceptCallHandler);
+	rejectCallButton.addEventListener('click', rejectCallHandler);
+
 	return dialog;
 }
 
@@ -80,6 +83,8 @@ export const getCallingDialog = rejectCallHandler => {
 	dialogContent.appendChild(title);
 	dialogContent.appendChild(imageContainer);
 	dialogContent.appendChild(buttonContainer);
+
+	hangUpCallButton.addEventListener('click', rejectCallHandler)
 
 	return dialog;
 }
