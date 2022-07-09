@@ -18,7 +18,6 @@ let connectPeers = [];
 io.on('connection', socket => {
 	// console.log('user connected to socket.io server');
 	// console.log(socket.id);
-
 	connectPeers.push(socket.id);
 	console.log(connectPeers);
 
@@ -33,6 +32,11 @@ io.on('connection', socket => {
 			}
 
 			io.to(calleePersonalCode).emit('pre-offer', data);
+		} else {
+			const data = {
+				preOfferAnswer: 'CALLEE_NOT_FOUND',
+			}
+			io.to(socket.id).emit('pre-offer-answer', data);
 		}
 	})
 
@@ -44,6 +48,15 @@ io.on('connection', socket => {
 
 		if (connectedPeer) {
 			io.to(callerSocketId).emit('pre-offer-answer', data);
+		}
+	})
+
+	socket.on('webRTC-signaling', data => {
+		const { connectedUserSocketId } = data;
+		const connectedPeer = connectPeers.find(peerSocketId => peerSocketId === connectedUserSocketId);
+
+		if (connectedPeer) {
+			io.to(connectedUserSocketId).emit('webRTC-signaling', data)
 		}
 	})
 
