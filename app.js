@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 })
 
 let connectPeers = [];
+let connectPeersStrangers = [];
 
 io.on('connection', socket => {
 	// console.log('user connected to socket.io server');
@@ -60,9 +61,51 @@ io.on('connection', socket => {
 		}
 	})
 
+	socket.on('user-hanged-up', data => {
+		const { connectedUserSocketId } = data;
+		const connectedPeer = connectPeers.find(peerSocketId => peerSocketId === connectedUserSocketId);
+
+		if (connectedPeer) {
+			io.to(connectedUserSocketId).emit('user-hanged-up');
+		}
+	})
+
+	socket.on('stranger-connection-status', data => {
+		const { status } = data;
+
+		if (status) {
+			connectPeersStrangers.push(socket.id);
+		} else {
+			const newConnectedPeersStrangers = connectPeersStrangers.filter(peerSocketId => peerSocketId !== socket.id);
+			connectPeersStrangers = newConnectedPeersStrangers;
+		}
+
+		console.log('connectPeersStrangers', connectPeersStrangers);
+	})
+
+	socket.on('get-stranger-socket-id', () => {
+		let randomStrangerSocketId;
+		const filterConnectedPeersStrangers = connectPeersStrangers.filter(peerSocketId => peerSocketId !== socket.id);
+
+		if (filterConnectedPeersStrangers.length > 0) {
+			randomStrangerSocketId = filterConnectedPeersStrangers[
+				Math.floor(Math.random() * filterConnectedPeersStrangers.length)
+			];
+		} else {
+			randomStrangerSocketId = null;
+		}
+
+		io.to(socket.id).emit('get-stranger-socket-id', {
+			randomStrangerSocketId
+		});
+	})
+
 	socket.on('disconnect', () => {
 		const newConnectedPeers = connectPeers.filter((peerSocketId) => peerSocketId !== socket.id);
 		connectPeers = newConnectedPeers;
+
+		const newConnectedPeersStrangers = connectPeersStrangers.filter(peerSocketId => peerSocketId !== socket.id);
+		connectPeersStrangers = newConnectedPeersStrangers;
 	})
 })
 
